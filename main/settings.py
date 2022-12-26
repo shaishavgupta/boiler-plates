@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_celery_beat',
-    'salo',
+    'youtube',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +137,5 @@ CELERY_TIMEZONE = 'Asia/Kolkata'
 # CELERY_RESULT_BACKEND = 'django-db'
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+YOUTUBE_API_VERSION = "v3"
+YOUTUBE_API_SERVICE_NAME = "youtube"

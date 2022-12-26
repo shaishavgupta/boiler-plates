@@ -13,7 +13,7 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.conf.beat_schedule = {
     'send_notification_every_minute': {
-        'task': 'salo.tasks.send_notification',
+        'task': 'youtube.tasks.search_youtube_videos',
         'schedule': crontab(minute='*/1'),
     }
 }
