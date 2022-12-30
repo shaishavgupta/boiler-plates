@@ -109,4 +109,4 @@ venv/
 #Database files
 *.db
 *.sql
-notes.txt
+*.sqlite3
