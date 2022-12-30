@@ -1,23 +1,45 @@
 version: '3'
 services:
-  django:
+  web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/fampay_youtube_assignment
+      - .:/app
     ports:
       - 8000:8000
-    links:
+    depends_on:
       - rabbitmq
       - redis
-
   rabbitmq:
     image: rabbitmq:3-management
+    build: .
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - AMQP_URL=amqp://guest:guest@localhost:5672
     ports:
-      - 15672:15672
       - 5672:5672
-
+      - 15672:15672
+    container_name: my-rabbitmq
   redis:
-    image: redis:6.0-alpine
-    ports:
-      - 6379:6379
+    image: redis:6
+  celery_worker:
+    build: .
+    command: celery -A main worker -l info
+    environment:
+      - CELERY_BROKER_URL=amqp://guest:guest@my-rabbitmq/guptaji
+    volumes:
+      - .:/app
+    depends_on:
+      - rabbitmq
+      - redis
+  celery_beat:
+    build: .
+    command: celery -A main beat -l info
+    environment:
+      - CELERY_BROKER_URL=amqp://guest:guest@my-rabbitmq/guptaji
+    volumes:
+      - .:/app
+    depends_on:
+      - rabbitmq
+      - redis
