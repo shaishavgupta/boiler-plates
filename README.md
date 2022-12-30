@@ -26,7 +26,7 @@
 **curl --location --request GET 'http://localhost:8000/youtube/get_videos/?page=2&size=1'**
 
 
-## Starting the project
+## Starting the project using docker
 - As I have dockerized the project you will have to **install docker on your system**
 
 - Run the following commands to start the docker server
